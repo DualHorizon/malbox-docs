@@ -1,0 +1,218 @@
+---
+title: "Glossary"
+description: "Key terminology and concepts in Malbox"
+sidebar:
+    order: 4
+    badge: "WIP"
+---
+
+## A
+
+### Analysis Profile
+A configuration set that defines how analysis tasks should be performed, including which plugins to use, VM configurations, network settings, and timeout values.
+
+### Analysis Task
+A unit of work in Malbox that represents the analysis of a specific sample with a defined profile and configuration.
+
+### Ansible
+An automation tool used by Malbox to configure virtual machines with necessary analysis tools and settings.
+
+### Architecture (CPU)
+The CPU architecture targeted by a virtual machine or plugin. Malbox supports x86 and x64 architectures.
+
+## B
+
+### Builder
+A component in Malbox that creates customized virtual machine images using Packer.
+
+## C
+
+### CLI (Command Line Interface)
+The command-line tool for interacting with Malbox, providing access to all system functionality.
+
+### Communication Channel
+An abstraction for message passing between components in Malbox, implemented using iceoryx2 for efficient IPC.
+
+## D
+
+### Downloader
+A Malbox component that manages downloading and verifying source files like operating system ISOs.
+
+### Dynamic Analysis
+Analysis performed by executing a sample in a controlled environment and observing its behavior.
+
+## E
+
+### Environment
+A deployment context in Malbox (development, staging, production) that affects logging, debugging, and other behaviors.
+
+### Execution Context
+Defines where a plugin executes - on the host system, in a guest VM, or in a hybrid configuration.
+
+### Execution Policy
+Rules that define how a plugin can execute in relation to other plugins: Exclusive, Sequential, Parallel, or Unrestricted.
+
+## G
+
+### Guest
+A virtual machine running an analysis task.
+
+### Guest Plugin
+A plugin that runs inside a virtual machine, typically used for dynamic analysis.
+
+## H
+
+### Host
+The machine running the Malbox core system.
+
+### Host Plugin
+A plugin that runs on the host system, typically used for static analysis.
+
+### Hybrid Plugin
+A plugin with components that run on both the host system and in guest VMs.
+
+## I
+
+### Infrastructure
+The virtual machines, networks, and storage resources managed by Malbox.
+
+### IPC (Inter-Process Communication)
+The mechanism through which Malbox components communicate. Malbox uses iceoryx2 for efficient zero-copy IPC.
+
+### iceoryx2
+A shared memory communication library used by Malbox for efficient, zero-copy inter-process communication.
+
+## M
+
+### Machine
+A virtual machine managed by Malbox for running dynamic analysis.
+
+### Machine Provider
+A hypervisor or virtualization platform (KVM, VMware, VirtualBox) used to run virtual machines.
+
+### Malware
+Malicious software that is the target of analysis in Malbox.
+
+## P
+
+### Packer
+An infrastructure automation tool used by Malbox to create customized virtual machine images.
+
+### Platform
+The operating system type (Windows, Linux) of a virtual machine or analysis environment.
+
+### Plugin
+An extension module that provides specific analysis capabilities to Malbox.
+
+### Plugin Instance
+A running instance of a plugin, managed by the Plugin Manager.
+
+### Plugin Manager
+A component that manages the lifecycle of plugins, including loading, initialization, and communication.
+
+### Plugin Registry
+A catalog of all available plugins and their capabilities.
+
+### Plugin State
+The current lifecycle status of a plugin: Created, Starting, Running, Stopping, Stopped, or Failed.
+
+## R
+
+### Resource Manager
+A component that allocates and manages virtual machines and other resources needed for analysis tasks.
+
+### Result Server
+A server component that receives analysis results from guest VMs.
+
+## S
+
+### Sample
+A file submitted for analysis.
+
+### Scheduler
+A component that manages the execution of analysis tasks, including prioritization and resource allocation.
+
+### Source Registry
+A catalog of available operating system images and other source files that can be downloaded.
+
+### Source Type
+The type of a downloadable source file: ISO, VM Image, Container Image, Archive.
+
+### Static Analysis
+Analysis performed by examining a file without executing it.
+
+## T
+
+### Task
+See "Analysis Task".
+
+### Task Coordinator
+A component that orchestrates the execution of analysis tasks.
+
+### Task Queue
+A prioritized list of pending analysis tasks.
+
+### Task State
+The current status of an analysis task: Pending, Initializing, PreparingResources, Running, Stopping, Completed, Failed, Canceled.
+
+### Terraform
+An infrastructure automation tool used by Malbox to provision and configure virtual machines.
+
+## V
+
+### VM (Virtual Machine)
+An isolated environment used for dynamic analysis of malware.
+
+### VM Image
+A disk image containing an operating system and analysis tools, used to create VMs.
+
+## W
+
+### Worker
+A process responsible for executing analysis tasks.
+
+### Worker Pool
+A collection of worker processes managed by the task coordinator.
+
+## Cross-Reference Guide
+
+### Plugin-Related Terms
+- [Plugin](/plugins/overview)
+- [Plugin Instance](/plugins/lifecycle)
+- [Plugin Manager](/plugins/overview)
+- [Plugin Registry](/plugins/overview)
+- [Plugin State](/plugins/lifecycle)
+- [Execution Context](/plugins/execution-models)
+- [Execution Policy](/plugins/execution-models)
+- [Host Plugin](/plugins/overview)
+- [Guest Plugin](/plugins/overview)
+- [Hybrid Plugin](/plugins/overview)
+
+### Task-Related Terms
+- [Analysis Task](/core/tasks)
+- [Task Coordinator](/core/scheduler)
+- [Task Queue](/core/scheduler)
+- [Task State](/core/tasks)
+- [Worker](/core/scheduler)
+- [Worker Pool](/core/scheduler)
+
+### Infrastructure-Related Terms
+- [Machine](/core/machines)
+- [Machine Provider](/infrastructure/overview)
+- [VM Image](/infrastructure/templates)
+- [Packer](/infrastructure/packer)
+- [Terraform](/infrastructure/terraform)
+- [Ansible](/infrastructure/overview)
+- [Resource Manager](/core/machines)
+
+### Analysis-Related Terms
+- [Analysis Profile](/core/profiles)
+- [Static Analysis](/analysis/static)
+- [Dynamic Analysis](/analysis/dynamic)
+- [Sample](/analysis/workflow)
+
+### Communication-Related Terms
+- [Communication Channel](/core/ipc)
+- [IPC](/core/ipc)
+- [iceoryx2](/core/ipc)
+- [Result Server](/infrastructure/networking)

@@ -1,36 +1,43 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Malbox
 template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  tagline:  An extensible, reliable FOSS malware analysis framework built in Rust with a plugin-driven architecture for security teams and researchers.
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get Started
+      link: /getting-started/introduction
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: Roadmap
+      link: https://github.com/DualHorizon/malbox
       icon: external
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components'
+import { ContainerSection } from 'starlight-theme-black/components'
 
-## Next steps
+<ContainerSection>
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+
+<CardGrid>
+	<Card title="Modular" icon="puzzle">
+	    Extend functionality easily through plugins, which can be written in Rust, Javascript and Python.
+        Plugins support different execution models, and can run on the host or the guest.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Performant" icon="rocket">
+        Malbox does not compromise on performance despite its modular plugin system. 
+        It primarily uses iceoryx2, a shared-memory IPC (Inter-Process-Communication) library that enables zero-copy and lock-free communication. 
+        In addition, plugin creators and users can declare and configure plugin specifics, often resulting in more optimized runtimes and adaptable use cases.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+    <Card title="FOSS" icon="heart">
+	    Retain full control over your infrastructure—Malbox will remain open-source and free forever.
+        Malbox supports both cloud-based and on-premise solutions for your infrastructure and storage needs.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+    <Card title="User Friendly" icon="approve-check">
+        Malbox’s built-in marketplace makes it easy to install official and community verified plugins. 
+        nstallation does not require rebuilding or restarting the Malbox service. 
+        Plugins and profiles follow strict standards to ensure a healthy, thriving ecosystem.
+    </Card>
 </CardGrid>
+
+</ContainerSection>

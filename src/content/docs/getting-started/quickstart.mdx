@@ -1,0 +1,156 @@
+---
+title: "Quickstart Guide"
+description: "Get Malbox up and running quickly"
+sidebar:
+    order: 2
+    badge: "WIP"
+---
+
+This guide will help you get Malbox installed and running your first analysis in minutes. For a more detailed setup, refer to the [Installation Guide](/installation).
+
+## Prerequisites
+
+Before installing Malbox, ensure your system meets the following requirements:
+
+### Hardware Requirements
+
+- **CPU**: 4+ cores (8+ recommended for running multiple VMs)
+- **RAM**: 8GB minimum (16GB+ recommended)
+- **Storage**: 20GB minimum for installation (100GB+ recommended for storing VM images and analysis results)
+- **Virtualization**: CPU with virtualization support (Intel VT-x/AMD-V) and enabled in BIOS
+
+### Software Requirements
+
+- **Operating System**: Linux (Ubuntu 20.04+, Debian 11+, or Fedora 36+)
+- **Dependencies**:
+  - Rust 1.81.0+
+  - PostgreSQL 13+
+  - One of: KVM, VMware, or VirtualBox
+  - Git
+  - Docker (optional, for containerized deployment)
+
+## Installation
+
+### Option 1: Direct Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/DualHorizon/malbox.git
+cd malbox
+
+# Copy and configure the configuration file
+cp configuration/malbox.example.toml configuration/malbox.toml
+# Edit the configuration file with your preferred text editor
+# nano configuration/malbox.toml
+
+# Build and run
+cargo build --release
+cargo run --release
+```
+
+### Option 2: Docker Deployment
+
+```bash
+# Pull the official Docker image
+docker pull malbox/malbox:latest
+
+# Download the docker-compose file
+wget https://raw.githubusercontent.com/DualHorizon/malbox/main/docker-compose.yml
+
+# Start the containers
+docker-compose up -d
+```
+
+## Basic Configuration
+
+The main configuration file is located at `configuration/malbox.toml`. The minimal configuration requires:
+
+```toml
+[http]
+host = "127.0.0.1"
+port = 5000
+
+[database]
+host = "postgresql://postgres:password@localhost/malbox_db"
+port = 5432
+
+[general]
+environment = "development"
+provider = "kvm"  # or "vmware", "virtualbox"
+debug = true
+worker_threads = 4
+
+[paths]
+config_dir = "/path/to/.config/malbox/"
+cache_dir = "/path/to/cache/malbox"
+data_dir = "/path/to/data/malbox"
+```
+
+## Setting Up Your First Analysis VM
+
+Malbox uses virtualization to provide isolated environments for malware analysis. Let's set up a basic Windows analysis VM:
+
+```bash
+# Download a Windows VM image
+malbox downloader download --family windows --edition windows --version 10-22h2 --variant x64
+
+# Build an analysis image based on the downloaded ISO
+malbox builder build --platform windows --template-name windows-sandbox --output-name win10-analysis
+```
+
+## Running Your First Analysis
+
+Now that you have a basic setup, let's run a simple analysis on a file:
+
+```bash
+# Submit a file for analysis
+malbox-cli submit-file --file /path/to/suspicious/file.exe --profile windows-default
+```
+
+The CLI will output a task ID. You can check the status of your analysis:
+
+```bash
+malbox-cli task-status --id <TASK_ID>
+```
+
+## Accessing Results
+
+Once the analysis is complete, you can access the results:
+
+```bash
+malbox-cli task-report --id <TASK_ID> --format json
+```
+
+Results are also available through the web interface, which is accessible at `http://localhost:5000` (or the host and port you configured).
+
+## Next Steps
+
+Congratulations! You've now completed a basic setup and run your first analysis with Malbox. Here are some next steps to explore:
+
+1. **Install Additional Plugins**: Enhance your analysis capabilities with plugins from the marketplace
+   ```bash
+   malbox-cli plugin-install --name pe-analyzer
+   ```
+
+2. **Create Custom Analysis Profiles**: Tailor the analysis process to your specific needs
+   ```bash
+   cp configuration/profiles/default/windows.toml configuration/profiles/custom/my-profile.toml
+   # Edit the profile configuration as needed
+   ```
+
+3. **Configure Network Settings**: Set up isolated or controlled internet access for dynamic analysis
+   ```bash
+   # Edit the network configuration in your VM provider settings
+   nano configuration/infrastructure/terraform/providers/kvm/kvm.default.toml
+   ```
+
+4. **Explore the Plugin API**: Start developing your own analysis plugins
+   
+5. **Set Up Integrations**: Connect Malbox to other security tools in your ecosystem
+
+For more detailed information, explore the rest of the documentation:
+
+- [System Architecture](/getting-started/architecture)
+- [Core Concepts](/core-concepts)
+- [Plugin System](/plugins/overview)
+- [CLI Reference](/cli/overview)

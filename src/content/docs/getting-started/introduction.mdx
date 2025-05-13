@@ -1,0 +1,102 @@
+---
+title: "Introduction"
+description: "Overview of Malbox and its capabilities"
+sidebar:
+    order: 1
+    badge: "WIP"
+---
+
+![Malbox Banner](../../../../src/assets/malbox-banner-1.png)
+
+Malbox is an advanced, open-source malware analysis platform designed to provide security researchers, malware analysts, and cybersecurity teams with a powerful, extensible environment for analyzing potentially malicious files and understanding their behavior.
+
+## Why Malbox?
+
+The modern threat landscape is constantly evolving, with attackers developing increasingly sophisticated techniques to evade detection. Malbox addresses several key challenges in the malware analysis space:
+
+- **Plugin Architecture**: Extend functionality easily through plugins, which can be written in Rust, JavaScript, and Python.
+  
+- **High Performance**: Malbox delivers exceptional performance through its use of Rust and efficient inter-process communication. It utilizes [iceoryx2](https://docs.rs/iceoryx2/latest/iceoryx2/), a shared-memory IPC library enabling zero-copy and lock-free communication.
+
+- **Completely Free and Self-Hostable**: Malbox is and will remain open-source and free forever, giving you full control over your infrastructure and analysis environment.
+
+- **User-friendly Ecosystem**: Our built-in marketplace makes it easy to discover and install official and community-verified plugins.
+
+- **Cloud or On-Premise Deployment**: Flexibly deploy Malbox in cloud environments or on your own infrastructure.
+
+- **Easy Deployment**: Enjoy a minimal-overhead setup with declarative configuration that reduces complexity.
+
+## Key Features
+
+### Analysis Capabilities
+
+Malbox supports a wide range of analysis techniques and file types through its plugin-based architecture:
+
+- **File Type Support**:
+  - Windows Executables (PE32, PE32+)
+  - Linux Executables (ELF)
+  - macOS Executables (MachO)
+  - Office Documents
+  - PDF Files
+  - Script Files (JS, VBS, PS1)
+  - Archive Files
+
+- **Analysis Features**:
+  - Automated unpacking
+  - String extraction
+  - Entropy analysis
+  - Network simulation
+  - Memory inspection
+  - Behavioral analysis
+  - Custom scripting support
+
+### Infrastructure Automation
+
+Malbox includes built-in support for infrastructure automation:
+
+- **VM Management**: Automated virtual machine provisioning and management using Terraform
+- **Image Building**: Custom VM image creation using Packer
+- **Multiple Hypervisors**: Support for KVM, VMware, and VirtualBox
+- **Network Isolation**: Configurable network isolation for analysis environments
+
+### Plugin System
+
+The heart of Malbox is its extensible plugin system:
+
+- **Plugin Types**:
+  - Host Plugins: Run directly on the host OS for static analysis and coordination
+  - Guest Plugins: Execute within VM environments for dynamic analysis
+  - Hybrid Plugins: Coordinate analysis across both environments
+
+- **Execution Models**:
+  - Exclusive: Plugin must be executed alone
+  - Sequential: Plugins run in sequence
+  - Parallel: Multiple plugins run simultaneously
+  - Unrestricted: No special requirements
+
+## Technology Stack
+
+Malbox is built on a modern, robust technology stack:
+
+| Component | Technology | Details |
+|-----------|------------|----------|
+| Core | Rust | Safe, high-performance execution |
+| IPC | iceoryx2 | Zero-copy plugin communication |
+| Database | PostgreSQL | Reliable state management |
+| API | Axum | Modern web framework |
+| Frontend | Astro | Fast, static frontend |
+
+## Where to Go Next
+
+- [Quickstart Guide](/getting-started/quickstart): Get Malbox up and running quickly
+- [System Architecture](/getting-started/architecture): Understand how Malbox works under the hood
+- [Core Concepts](/core-concepts): Learn about the key concepts in Malbox
+- [Plugin System](/plugins/overview): Dive deeper into Malbox's plugin architecture
+
+## Community and Support
+
+Malbox is an open-source project with a growing community:
+
+- [GitHub Repository](https://github.com/DualHorizon/malbox): Source code and issue tracking
+- [Documentation](https://docs.malbox.io): Comprehensive documentation
+- [Discord Community](https://discord.gg/XWBdpQ5bMp): Get help and connect with other users

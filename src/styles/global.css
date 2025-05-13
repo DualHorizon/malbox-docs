@@ -1,0 +1,18 @@
+@layer base, starlight, black, theme, components, utilities, override;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@layer override {
+    main, 
+    body,
+    .layout,
+    header {
+      background-color: var(--background) !important;
+    }
+    
+    :root[data-theme='dark'] {
+        --background: #101114;
+    }
+}

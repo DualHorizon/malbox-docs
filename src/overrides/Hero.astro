@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets'
+import LinkButton from "../components/LinkButton.astro"
+import { ContainerSection } from 'starlight-theme-black/components'
+import { PAGE_TITLE_ID } from '../constants'
+
+const { data } = Astro.locals.starlightRoute.entry
+const { title = data.title, tagline, image, actions = [] } = data.hero || {}
+
+const imageAttrs = {
+  loading: 'eager' as const,
+  decoding: 'async' as const,
+  width: 150,
+  height: 150,
+  alt: image?.alt || '',
+}
+
+let darkImage: ImageMetadata | undefined
+let lightImage: ImageMetadata | undefined
+let rawHtml: string | undefined
+
+if (image) {
+  if ('file' in image) {
+    darkImage = image.file
+  } else if ('dark' in image) {
+    darkImage = image.dark
+    lightImage = image.light
+  } else {
+    rawHtml = image.html
+  }
+}
+---
+<ContainerSection>
+  <div class="pt-16 pb-8 md:py-10 lg:py-12 flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+    <div class="flex-shrink-0">
+      {darkImage && <Image src={darkImage} {...imageAttrs} class:list={{ 'light:sl-hidden': Boolean(lightImage) }} />}
+      {lightImage && <Image src={lightImage} {...imageAttrs} class="dark:sl-hidden" />}
+      {rawHtml && <div class="flex sl-flex" set:html={rawHtml} />}
+    </div>
+    
+    <div class="flex flex-col gap-1">
+      <h1 class="tracking-tight leading-tight font-bold text-3xl md:text-4xl md:leading-10 lg:leading-[1.1]" id={PAGE_TITLE_ID} data-page-title set:html={title} />
+      {tagline && <div class="text-[var(--foreground)] font-light text-lg max-w-2xl" set:html={tagline} />}
+      {
+        actions.length > 0 && (
+          <div class="w-full pt-2 flex justify-start items-center gap-2">
+            {actions.map(({ attrs: { class: className, ...attrs } = {}, icon, link: href, text, variant }) => (
+              <LinkButton {href} {variant} class:list={[className]} {...attrs}>
+                {text}
+                {icon?.html && <Fragment set:html={icon.html} />}
+              </LinkButton>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</ContainerSection>
