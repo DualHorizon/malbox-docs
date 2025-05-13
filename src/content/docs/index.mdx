@@ -20,24 +20,33 @@ import { ContainerSection } from 'starlight-theme-black/components'
 
 
 <CardGrid>
-	<Card title="Modular" icon="puzzle">
-	    Extend functionality easily through plugins, which can be written in Rust, Javascript and Python.
-        Plugins support different execution models, and can run on the host or the guest.
-	</Card>
-	<Card title="Performant" icon="rocket">
-        Malbox does not compromise on performance despite its modular plugin system. 
-        It primarily uses iceoryx2, a shared-memory IPC (Inter-Process-Communication) library that enables zero-copy and lock-free communication. 
-        In addition, plugin creators and users can declare and configure plugin specifics, often resulting in more optimized runtimes and adaptable use cases.
-	</Card>
-    <Card title="FOSS" icon="heart">
-	    Retain full control over your infrastructure—Malbox will remain open-source and free forever.
-        Malbox supports both cloud-based and on-premise solutions for your infrastructure and storage needs.
-	</Card>
-    <Card title="User Friendly" icon="approve-check">
-        Malbox’s built-in marketplace makes it easy to install official and community verified plugins. 
-        nstallation does not require rebuilding or restarting the Malbox service. 
-        Plugins and profiles follow strict standards to ensure a healthy, thriving ecosystem.
-    </Card>
+  <Card title="Modular" icon="puzzle">
+    Extend functionality effortlessly through plugins written in Rust, JavaScript, or Python.  
+    Plugins support various execution models and can run either on the host or within the guest environment.
+  </Card>
+  <Card title="Performant" icon="rocket">
+    Malbox delivers modularity without sacrificing performance.
+    It mostly leverages iceoryx2, a shared-memory IPC (Inter-Process Communication) library that enables zero-copy, lock-free communication between components.  
+    Plugin developers can fine-tune behavior through configurable options, often resulting in optimized runtimes and greater adaptability.
+  </Card>
+  <Card title="FOSS" icon="heart">
+    Maintain full control over your infrastructure—Malbox is and always will be open-source and free.  
+    It supports both cloud-based and on-premise deployment for flexible storage and compute solutions.
+  </Card>
+  <Card title="User Friendly" icon="approve-check">
+    Malbox features a built-in marketplace for easy installation of both official and community-verified plugins.  
+    No rebuilds or restarts are needed to install new plugins.  
+    All plugins and profiles adhere to strict standards, ensuring a secure and healthy ecosystem.
+  </Card>
+  <Card title="Declarative Configuration" icon="setting">
+    Malbox is fully declarative—configuration and deployment included.  
+    With integrated tools like Terraform, Packer, and Ansible, users can build images, define infrastructure, and manage machinery templates seamlessly.
+  </Card>
+  <Card title="Provider-Agnostic" icon="bars">
+    Malbox is not tied to any specific provider.  
+    Users are free to choose their preferred technology for sandboxed environments.  
+    To integrate a new provider, simply wrap it using the Malbox API.
+  </Card>
 </CardGrid>
 
 </ContainerSection>
