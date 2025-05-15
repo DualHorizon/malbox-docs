@@ -1,0 +1,121 @@
+---
+title: Workers
+description: This page is a work-in-progress.
+sidebar:
+    order: 2
+    badge: "WIP"
+---
+
+## Overview
+
+The Worker System in Malbox enables specialized workers that can be optimized for specific task types and support batch processing capabilities. This system improves efficiency and resource utilization by allowing workers to be tailored to particular analysis scenarios.
+
+## Key Concepts
+
+### Worker Specialization
+
+Workers can be configured to handle specific types of tasks based on their capabilities and resource requirements. For example, this allows for:
+
+- **Lightweight Workers**: Dedicated to host plugins that don't require VMs or heavy resources
+- **Specialized Workers**: Optimized for specific analysis types (e.g., static analysis, YARA scanning)
+- **Resource-Intensive Workers**: Configured for dynamic analysis requiring full VM isolation
+
+### Batch Processing
+
+Compatible workers can process multiple similar tasks in a single operation, significantly improving throughput for certain types of analysis:
+
+- **Task Grouping**: Similar tasks are collected and processed together
+- **Optimized Resource Usage**: Eliminates redundant initialization steps/overhead
+- **Configurable Parameters**: Timeouts and batch sizes can be adjusted based on workload
+
+## Worker Configuration Reference
+
+### Configuration Parameters
+
+| Parameter | Description | Default | Example |
+|-----------|-------------|---------|---------|
+| `name` | Unique identifier for the worker | `"worker-{id}"` | `"static-analysis-worker"` |
+| `compatible_tasks` | Task types this worker can process | `[]` (all) | `["yara", "static", "hash"]` |
+| `execution_mode` | Worker's execution environment | `"host"` | `"host"`, `"guest"`, `"hybrid"` |
+| `batch_processing` | Whether batch processing is enabled | `false` | `true` |
+| `max_batch_size` | Maximum number of tasks in a batch | `1` | `50` |
+| `batch_timeout` | Maximum time to wait for batch collection (ms) | `500` | `2000` |
+| `max_concurrent_tasks` | Maximum tasks worker can handle simultaneously | `1` | `5` |
+| `resource_limits` | Resource constraints for the worker | `{}` | `{"memory": "4G", "cpu": 2}` |
+| `plugin_restrictions` | Specific plugins this worker can/cannot use | `{}` | `{"allow": ["yara", "pe"], "deny": ["sandbox"]}` |
+
+### Configuration File Example
+
+```toml
+# Worker configuration file: workers.toml
+
+[[worker]]
+name = "yara-scanner"
+compatible_tasks = ["yara"]
+execution_mode = "host"
+batch_processing = true
+max_batch_size = 100
+batch_timeout = 1000
+max_concurrent_tasks = 1
+resource_limits = { memory = "2G", cpu = 1 }
+plugin_restrictions = { allow = ["yara"] }
+
+[[worker]]
+name = "dynamic-analyzer"
+compatible_tasks = ["dynamic"]
+execution_mode = "guest"
+batch_processing = false
+max_concurrent_tasks = 1
+resource_limits = { memory = "8G", cpu = 4 }
+plugin_restrictions = { allow = ["sandbox", "behavior"] }
+```
+
+## Batch Processing Details
+
+### How Batch Processing Works
+
+1. Tasks marked as batch-compatible are held in a queue until:
+   - The queue reaches `max_batch_size`
+   - The `batch_timeout` is reached
+   - A non-compatible task arrives and requires immediate processing
+
+2. The worker processes all collected tasks in a single operation
+3. Results are individually reported for each task in the batch
+
+### Compatible Task Types
+
+Batch processing is primarily suitable for:
+
+- **Stateless Analysis**: Tasks that don't modify system state
+- **File-Based Scanning**: YARA, hash calculation, static analysis
+
+Incompatible with:
+- Dynamic analysis that executes the sample
+- Analysis that modifies system state
+- Tasks with complex dependencies
+
+## Best Practices
+
+### Worker Configuration
+
+- **Separate Concerns**: Create specialized workers for different analysis types
+- **Resource Allocation**: Assign resources based on task requirements
+- **Batch Wisely**: Only enable batch processing for truly stateless operations
+
+### Performance Optimization
+
+- **Tune Batch Parameters**: Adjust timeout and batch size based on workload characteristics
+- **Monitor Worker Load**: Track worker performance to identify bottlenecks
+- **Consider Task Affinity**: Route related tasks to the same worker when appropriate
+
+### Scaling Considerations
+
+- **Worker Pools**: Group similar workers into pools for better load distribution
+- **Dynamic Scaling**: Add or remove workers based on queue length and processing times
+- **Resource Limits**: Set appropriate memory and CPU limits to prevent resource exhaustion
+
+## Limitations and Considerations
+
+- Batch processing introduces a small delay for the first tasks in a batch depending on the worker's configuration
+- Not all plugins support batch processing - check plugin documentation
+- Complex dependencies between tasks may limit batch processing opportunities
